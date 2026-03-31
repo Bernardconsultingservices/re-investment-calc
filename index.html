@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institutional Asset Underwriter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen p-4 md:p-12 text-slate-900">
+
+    <div class="max-w-6xl mx-auto">
+        <div class="mb-8 border-b border-slate-200 pb-6 flex items-center gap-5">
+            <img src="https://placehold.co/120x120/1e3a8a/ffffff?text=LOGO" alt="Company Logo" class="h-16 w-16 rounded-xl object-cover shadow-sm border border-slate-200">
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Investment Analysis Pro</h1>
+                <p class="text-slate-500 font-medium uppercase text-xs tracking-[0.2em] mt-1">Institutional Grade Underwriting Model</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            
+            <div class="lg:col-span-7 bg-white rounded-xl p-8 shadow-sm border border-slate-200">
+                <div class="flex items-center gap-2 mb-8">
+                    <div class="w-2 h-6 bg-blue-700 rounded-full"></div>
+                    <h2 class="text-xl font-bold text-slate-800">Assumptions & Data</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8" oninput="runAnalysis()">
+                    <div class="space-y-4">
+                        <h3 class="text-blue-700 text-[10px] font-black uppercase tracking-widest border-b border-blue-50 pb-2">Revenue Metrics</h3>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-2 uppercase">Gross Potential Rent</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-3.5 text-slate-400 text-sm">$</span>
+                                <input type="number" id="grossRent" value="100000" class="w-full bg-slate-50 border border-slate-200 rounded-lg py-3 pl-7 pr-4 focus:ring-2 focus:ring-blue-600 focus:bg-white outline-none transition-all font-medium">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h3 class="text-blue-700 text-[10px] font-black uppercase tracking-widest border-b border-blue-50 pb-2">Capital Stack</h3>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-2 uppercase">Annual Debt Service</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-3.5 text-slate-400 text-sm">$</span>
+                                <input type="number" id="debtService" value="20000" class="w-full bg-slate-50 border border-slate-200 rounded-lg py-3 pl-7 pr-4 focus:ring-2 focus:ring-blue-600 focus:bg-white outline-none transition-all font-medium">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2 space-y-5 pt-4 border-t border-slate-100">
+                        <h3 class="text-blue-700 text-[10px] font-black uppercase tracking-widest">Operating Expenses (60% Target)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 mb-1 uppercase">Property Taxes</label>
+                                <input type="number" id="taxes" value="12000" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-600 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 mb-1 uppercase">Insurance</label>
+                                <input type="number" id="insurance" value="3000" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-600 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 mb-1 uppercase">Maintenance & Repairs</label>
+                                <input type="number" id="maintenance" value="8000" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-600 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 mb-1 uppercase">Management Fees</label>
+                                <input type="number" id="management" value="8000" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-600 outline-none">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-[10px] font-bold text-slate-400 mb-1 uppercase">Other Ops (Admin, Utilities, Legal, Accounting etc.)</label>
+                                <input type="number" id="otherOps" value="24200" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-600 outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="runAnalysis()" class="w-full mt-10 bg-blue-800 hover:bg-blue-900 text-white font-bold py-4 rounded-lg transition-all shadow-md uppercase tracking-widest text-sm">
+                    Re-Calculate Analysis
+                </button>
+            </div>
+
+            <div class="lg:col-span-5 space-y-6">
+                <div id="statusCard" class="bg-white rounded-xl p-8 border border-slate-200 shadow-sm transition-all duration-500">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Debt Service Coverage Ratio</p>
+                    <div class="flex items-baseline gap-2">
+                        <h1 id="dscrOut" class="text-7xl font-black text-slate-900 tracking-tighter">0.00</h1>
+                        <span class="text-slate-400 font-bold">DSCR</span>
+                    </div>
+                    <div id="verdict" class="mt-4 inline-block px-4 py-1.5 rounded-md text-[11px] font-black uppercase tracking-widest transition-colors duration-500">
+                        Awaiting Data
+                    </div>
+                </div>
+
+                <div class="bg-blue-900 rounded-xl p-8 text-white shadow-xl">
+                    <p class="text-[10px] font-bold text-blue-300 uppercase tracking-widest mb-2">Max Allowable Cash Investment</p>
+                    <h2 id="maxInvestOut" class="text-4xl font-black tracking-tight">$0</h2>
+                    <p class="text-blue-200 text-[10px] mt-2 uppercase font-medium">To Yield 6.00% Cash-on-Cash Return</p>
+                    <p class="text-blue-400 text-xs mt-3 pt-3 border-t border-blue-800/50 leading-relaxed">
+                        This figure represents your total out-of-pocket maximum, including cash for down payment, closing costs, capex budget, and cash reserves etc.
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-xl p-8 border border-slate-200 shadow-sm">
+                    <h3 class="text-slate-900 font-bold mb-6 flex justify-between items-center text-sm border-b border-slate-50 pb-4">
+                        <span class="uppercase tracking-tight">Annual Cash Flow Waterfall</span>
+                        <span class="text-blue-600 bg-blue-50 px-2 py-0.5 rounded text-[10px]">USD</span>
+                    </h3>
+                    
+                    <div class="space-y-4 text-sm">
+                        <div class="flex justify-between font-medium">
+                            <span class="text-slate-500">Gross Potential Rent</span>
+                            <span id="outGross" class="text-slate-900">$0</span>
+                        </div>
+                        <div class="flex justify-between text-rose-600">
+                            <span class="text-slate-500">(-) Vacancy & Credit Loss (8%)</span>
+                            <span id="outVacancy">$0</span>
+                        </div>
+                        <div class="flex justify-between font-bold text-blue-900 py-2 border-y border-slate-50">
+                            <span>Effective Gross Income (EGI)</span>
+                            <span id="outEGI">$0</span>
+                        </div>
+                        <div class="flex justify-between text-rose-600">
+                            <span class="text-slate-500">(-) Total Operating Expenses</span>
+                            <span id="outTotalOps">$0</span>
+                        </div>
+                        <div class="flex justify-between font-bold text-emerald-600 py-1 bg-emerald-50 px-2 rounded">
+                            <span>Net Operating Income (NOI)</span>
+                            <span id="outNOI">$0</span>
+                        </div>
+                        <div class="flex justify-between text-rose-600">
+                            <span class="text-slate-500">(-) Annual Debt Service</span>
+                            <span id="outDebt">$0</span>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex justify-between items-center">
+                            <span class="text-slate-900 font-bold uppercase text-xs">Net Cash Flow</span>
+                            <span id="outNCF" class="text-2xl font-black text-slate-900 tracking-tight">$0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-slate-100 rounded-xl border border-slate-200">
+                    <p class="text-[10px] leading-relaxed text-slate-500 font-medium italic">
+                        <strong>Disclaimer:</strong> This calculator is for informational purposes only and does not constitute financial, legal, or investment advice. Real estate investments carry inherent risks. Users should perform their own due diligence, verify all market data, and consult with a licensed financial professional or legal advisor before making any investment decisions.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function runAnalysis() {
+            const rent = parseFloat(document.getElementById('grossRent').value) || 0;
+            const debt = parseFloat(document.getElementById('debtService').value) || 0;
+            const tax = parseFloat(document.getElementById('taxes').value) || 0;
+            const ins = parseFloat(document.getElementById('insurance').value) || 0;
+            const maint = parseFloat(document.getElementById('maintenance').value) || 0;
+            const mgmt = parseFloat(document.getElementById('management').value) || 0;
+            const other = parseFloat(document.getElementById('otherOps').value) || 0;
+
+            const vacancy = rent * 0.08;
+            const egi = rent - vacancy;
+            const totalOps = tax + ins + maint + mgmt + other;
+            const noi = egi - totalOps;
+            const ncf = noi - debt;
+            const dscr = debt > 0 ? (noi / debt) : 0;
+
+            const targetYield = 0.06;
+            const maxInvestment = ncf > 0 ? (ncf / targetYield) : 0;
+
+            const fmt = (num) => '$' + num.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
+            
+            document.getElementById('outGross').innerText = fmt(rent);
+            document.getElementById('outVacancy').innerText = `- ${fmt(vacancy)}`;
+            document.getElementById('outEGI').innerText = fmt(egi);
+            document.getElementById('outTotalOps').innerText = `- ${fmt(totalOps)}`;
+            document.getElementById('outNOI').innerText = fmt(noi);
+            document.getElementById('outDebt').innerText = `- ${fmt(debt)}`;
+            document.getElementById('outNCF').innerText = fmt(ncf);
+            document.getElementById('dscrOut').innerText = dscr.toFixed(2);
+            document.getElementById('maxInvestOut').innerText = fmt(maxInvestment);
+
+            const card = document.getElementById('statusCard');
+            const verdict = document.getElementById('verdict');
+            const dscrText = document.getElementById('dscrOut');
+
+            if (dscr >= 1.25) {
+                card.style.borderColor = "#10b981"; 
+                verdict.className = "mt-4 inline-block px-4 py-1.5 rounded-md text-[11px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-700";
+                verdict.innerText = "Investment Grade";
+                dscrText.className = "text-7xl font-black text-emerald-600 tracking-tighter";
+            } else if (dscr <= 1.00) {
+                card.style.borderColor = "#f43f5e"; 
+                verdict.className = "mt-4 inline-block px-4 py-1.5 rounded-md text-[11px] font-black uppercase tracking-widest bg-rose-100 text-rose-700";
+                verdict.innerText = "Below Threshold";
+                dscrText.className = "text-7xl font-black text-rose-600 tracking-tighter";
+            } else {
+                card.style.borderColor = "#f59e0b"; 
+                verdict.className = "mt-4 inline-block px-4 py-1.5 rounded-md text-[11px] font-black uppercase tracking-widest bg-amber-100 text-amber-700";
+                verdict.innerText = "Marginal Risk";
+                dscrText.className = "text-7xl font-black text-amber-500 tracking-tighter";
+            }
+        }
+        runAnalysis();
+    </script>
+</body>
+  </html>
+  
